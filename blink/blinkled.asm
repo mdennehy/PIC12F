@@ -10,8 +10,10 @@
 	movwf 0x19 ; move value of W to register at OSCCON (address 0x19)
 
 	;;; Define pin 5 (RA2) as output
-	movlb 0     ; select bank 0 (PORTA)
-	clrf 0x0C   ; clear PORTA
+	;movlb 0     ; select bank 0 (PORTA)
+	;clrf 0x0C   ; clear PORTA
+  BANKSEL PORTA
+  CLRF    PORTA
 
 	movlb 2     ; select bank 2 (LATA)
 	clrf 0x0C   ; clear LATA
