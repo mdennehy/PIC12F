@@ -61,7 +61,103 @@ PixelLoop
   goto Latch
 
   ; send bits
+  btfss GREEN,7
   CALL SendOne
+  btfsc GREEN,7
+  CALL SendZero
+  btfss GREEN,6
+  CALL SendOne
+  btfsc GREEN,6
+  CALL SendZero
+  btfss GREEN,5
+  CALL SendOne
+  btfsc GREEN,5
+  CALL SendZero
+  btfss GREEN,4
+  CALL SendOne
+  btfsc GREEN,4
+  CALL SendZero
+  btfss GREEN,3
+  CALL SendOne
+  btfsc GREEN,3
+  CALL SendZero
+  btfss GREEN,2
+  CALL SendOne
+  btfsc GREEN,2
+  CALL SendZero
+  btfss GREEN,1
+  CALL SendOne
+  btfsc GREEN,1
+  CALL SendZero
+  btfss GREEN,0
+  CALL SendOne
+  btfsc GREEN,0
+  CALL SendZero
+
+  btfss RED,7
+  CALL SendOne
+  btfsc RED,7
+  CALL SendZero
+  btfss RED,6
+  CALL SendOne
+  btfsc RED,6
+  CALL SendZero
+  btfss RED,5
+  CALL SendOne
+  btfsc RED,5
+  CALL SendZero
+  btfss RED,4
+  CALL SendOne
+  btfsc RED,4
+  CALL SendZero
+  btfss RED,3
+  CALL SendOne
+  btfsc RED,3
+  CALL SendZero
+  btfss RED,2
+  CALL SendOne
+  btfsc RED,2
+  CALL SendZero
+  btfss RED,1
+  CALL SendOne
+  btfsc RED,1
+  CALL SendZero
+  btfss RED,0
+  CALL SendOne
+  btfsc RED,0
+  CALL SendZero
+
+  btfss BLUE,7
+  CALL SendOne
+  btfsc BLUE,7
+  CALL SendZero
+  btfss BLUE,6
+  CALL SendOne
+  btfsc BLUE,6
+  CALL SendZero
+  btfss BLUE,5
+  CALL SendOne
+  btfsc BLUE,5
+  CALL SendZero
+  btfss BLUE,4
+  CALL SendOne
+  btfsc BLUE,4
+  CALL SendZero
+  btfss BLUE,3
+  CALL SendOne
+  btfsc BLUE,3
+  CALL SendZero
+  btfss BLUE,2
+  CALL SendOne
+  btfsc BLUE,2
+  CALL SendZero
+  btfss BLUE,1
+  CALL SendOne
+  btfsc BLUE,1
+  CALL SendZero
+  btfss BLUE,0
+  CALL SendOne
+  btfsc BLUE,0
   CALL SendZero
 
   incf RED,1
@@ -86,13 +182,13 @@ SendZero
   RETURN
 
 Latch
-Delay
   ; Set to 100% low
   BANKSEL CCPR1L
   MOVLW 0x00
   MOVWF CCPR1L
   CLRF  CCP1CON
 
+Delay
   ; Delay for 15us
 	movlw 0xC7     ; 0xC7 = 199
 	movwf 0x30     ; set 0x30 to 199
