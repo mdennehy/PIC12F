@@ -38,52 +38,69 @@
   BANKSEL T2CON 
   BSF     T2CON, 2 ; Timer2 on
   
+  ; hack - write a slightly different 24bit value 16 different times, pause,
+  ; redo from start
+  CONSTANT PIXEL=0x20
+  CONSTANT RED=0x21
+  CONSTANT BLUE=0x22
+  CONSTANT GREEN=0x23
+  CONSTANT PIXEL_ONE=0x08
+  CONSTANT PIXEL_ZERO=0x02
+
+  movlw 0x00
+  movwf RED
+  movwf BLUE
+  movwf GREEN
+
+PixelLoopSetup
+  movlw 0x0F
+  movwf PIXEL
+
+PixelLoop
+  decfsz  PIXEL,1
+  goto Latch
+
+  ; send bits
+  CALL SendOne
+  CALL SendZero
+
+  incf RED,1
+  incf BLUE,1
+  incf GREEN,1
+  goto PixelLoop
+
+SendOne
+  BANKSEL CCPR1L
+  MOVLW 0x08
+  MOVWF CCPR1L
+  BCF   CCP1CON, 4
+  BCF   CCP1CON, 5
+  RETURN
+
+SendZero
+  BANKSEL CCPR1L
+  MOVLW 0x02
+  MOVWF CCPR1L
+  BSF   CCP1CON, 4
+  BSF   CCP1CON, 5
+  RETURN
+
+Latch
+Delay
+  ; Set to 100% low
+  BANKSEL CCPR1L
+  MOVLW 0x00
+  MOVWF CCPR1L
+  CLRF  CCP1CON
+
+  ; Delay for 15us
+	movlw 0xC7     ; 0xC7 = 199
+	movwf 0x30     ; set 0x30 to 199
+	movwf 0x31     ; set 0x31 to 199
+	decfsz 0x31, 1 ; decrement 0x30
+	bra $-1        ; if 0x31 != 0 go back 1 instruction
+	decfsz 0x30, 1 ; decrement 0x31
+	bra $-4        ; if 0x30 != 0 go back 4 instruction
+  goto PixelLoopSetup
   END
 
-
-;   void NeoPixel_Write_One(uint8_t value) {
-;       // Enable timer and wait for it to overflow
-;       T2CONbits.TMR2ON = 1;
-;       while (!PIR1bits.TMR2IF);
-;   
-;       // Set pulse width for bit 7
-;       if (value & 0x80) {
-;           CCPR1L = NEOPIXEL_LOGIC_1; // ~800ns high, ~450ns low (logic 1)
-;       } else {
-;           CCPR1L = NEOPIXEL_LOGIC_0; // ~400ns high, ~850ns low (logic 0)
-;       }
-;       while (!PIR1bits.TMR2IF);
-;   
-;       // Set pulse width for bit 6
-;       if (value & 0x40) {
-;           CCPR1L = NEOPIXEL_LOGIC_1; // ~800ns high, ~450ns low (logic 1)
-;       } else {
-;           CCPR1L = NEOPIXEL_LOGIC_0; // ~400ns high, ~850ns low (logic 0)
-;       }
-;       while (!PIR1bits.TMR2IF);
-;   
-;       ...
-;   
-;       // Set pulse width for bit 0
-;       if (value & 0x01) {
-;           CCPR1L = NEOPIXEL_LOGIC_1; // ~800ns high, ~450ns low (logic 1)
-;       } else {
-;           CCPR1L = NEOPIXEL_LOGIC_0; // ~400ns high, ~850ns low (logic 0)
-;       }
-;   
-;       // Idle line low
-;       while (!PIR1bits.TMR2IF);
-;       asm("NOP");
-;       asm("NOP");
-;       asm("NOP");
-;       asm("NOP");
-;       asm("NOP");
-;       CCPR1L = 0b00000000;
-;   
-;       // Disable and reset timer
-;       while (!PIR1bits.TMR2IF);
-;       asm("NOP");
-;       asm("NOP");
-;       T2CONbits.TMR2ON = 0;
-;       TMR2 = 0x0;
-;   }
