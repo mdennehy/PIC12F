@@ -61,153 +61,155 @@ PixelLoopSetup
 PixelLoop
   BANKSEL CCPR1L
   decfsz  PIXEL,1
+  bra $+2
   goto Latch
 
   ; send bits
-  btfss GREEN,7
-  CALL SendOne
   BANKSEL CCPR1L
   btfsc GREEN,7
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss GREEN,6
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss GREEN,7
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc GREEN,6
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss GREEN,5
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss GREEN,6
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc GREEN,5
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss GREEN,4
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss GREEN,5
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc GREEN,4
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss GREEN,3
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss GREEN,4
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc GREEN,3
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss GREEN,2
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss GREEN,3
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc GREEN,2
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss GREEN,1
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss GREEN,2
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc GREEN,1
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss GREEN,0
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss GREEN,1
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc GREEN,0
+  CALL SendOne
+  BANKSEL CCPR1L
+  btfss GREEN,0
   CALL SendZero
 
-  BANKSEL CCPR1L
-  btfss RED,7
-  CALL SendOne
   BANKSEL CCPR1L
   btfsc RED,7
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss RED,6
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss RED,7
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc RED,6
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss RED,5
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss RED,6
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc RED,5
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss RED,4
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss RED,5
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc RED,4
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss RED,3
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss RED,4
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc RED,3
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss RED,2
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss RED,3
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc RED,2
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss RED,1
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss RED,2
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc RED,1
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss RED,0
   CALL SendOne
   BANKSEL CCPR1L
+  btfss RED,1
+  CALL SendZero
+  BANKSEL CCPR1L
   btfsc RED,0
+  CALL SendOne
+  BANKSEL CCPR1L
+  btfss RED,0
   CALL SendZero
 
   BANKSEL CCPR1L
-  btfss BLUE,7
-  CALL SendOne
-  BANKSEL CCPR1L
   btfsc BLUE,7
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss BLUE,6
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss BLUE,7
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc BLUE,6
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss BLUE,5
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss BLUE,6
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc BLUE,5
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss BLUE,4
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss BLUE,5
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc BLUE,4
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss BLUE,3
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss BLUE,4
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc BLUE,3
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss BLUE,2
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss BLUE,3
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc BLUE,2
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss BLUE,1
   CALL SendOne
+  BANKSEL CCPR1L
+  btfss BLUE,2
+  CALL SendZero
   BANKSEL CCPR1L
   btfsc BLUE,1
-  CALL SendZero
-  BANKSEL CCPR1L
-  btfss BLUE,0
   CALL SendOne
   BANKSEL CCPR1L
+  btfss BLUE,1
+  CALL SendZero
+  BANKSEL CCPR1L
   btfsc BLUE,0
+  CALL SendOne
+  BANKSEL CCPR1L
+  btfss BLUE,0
   CALL SendZero
 
   BANKSEL CCPR1L
@@ -225,7 +227,6 @@ SendOne
   BANKSEL PIR1
   BTFSS PIR1,1
   BRA $-1
-  BANKSEL CCPR1L
   RETURN
 
 SendZero
@@ -237,7 +238,6 @@ SendZero
   BANKSEL PIR1
   BTFSS PIR1,1
   BRA $-1
-  BANKSEL CCPR1L
   RETURN
 
 Latch
@@ -245,7 +245,8 @@ Latch
   BANKSEL CCPR1L
   MOVLW 0x00
   MOVWF CCPR1L
-  CLRF  CCP1CON
+  BCF   CCP1CON,4
+  BCF   CCP1CON,5
 
 Delay
   ; Delay for 15us
@@ -257,5 +258,6 @@ Delay
 	decfsz 0x30, 1 ; decrement 0x31
 	bra $-4        ; if 0x30 != 0 go back 4 instruction
   goto PixelLoopSetup
+
   END
 
