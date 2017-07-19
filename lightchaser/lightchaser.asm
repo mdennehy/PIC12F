@@ -38,6 +38,7 @@
   BANKSEL T2CON 
   BSF     T2CON, 2 ; Timer2 on
   
+  BANKSEL CCPR1L
   ; hack - write a slightly different 24bit value 16 different times, pause,
   ; redo from start
   CONSTANT PIXEL=0x20
@@ -53,113 +54,163 @@
   movwf GREEN
 
 PixelLoopSetup
+  BANKSEL CCPR1L
   movlw 0x0F
   movwf PIXEL
 
 PixelLoop
+  BANKSEL CCPR1L
   decfsz  PIXEL,1
   goto Latch
 
   ; send bits
   btfss GREEN,7
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc GREEN,7
   CALL SendZero
+  BANKSEL CCPR1L
   btfss GREEN,6
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc GREEN,6
   CALL SendZero
+  BANKSEL CCPR1L
   btfss GREEN,5
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc GREEN,5
   CALL SendZero
+  BANKSEL CCPR1L
   btfss GREEN,4
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc GREEN,4
   CALL SendZero
+  BANKSEL CCPR1L
   btfss GREEN,3
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc GREEN,3
   CALL SendZero
+  BANKSEL CCPR1L
   btfss GREEN,2
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc GREEN,2
   CALL SendZero
+  BANKSEL CCPR1L
   btfss GREEN,1
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc GREEN,1
   CALL SendZero
+  BANKSEL CCPR1L
   btfss GREEN,0
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc GREEN,0
   CALL SendZero
 
+  BANKSEL CCPR1L
   btfss RED,7
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc RED,7
   CALL SendZero
+  BANKSEL CCPR1L
   btfss RED,6
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc RED,6
   CALL SendZero
+  BANKSEL CCPR1L
   btfss RED,5
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc RED,5
   CALL SendZero
+  BANKSEL CCPR1L
   btfss RED,4
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc RED,4
   CALL SendZero
+  BANKSEL CCPR1L
   btfss RED,3
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc RED,3
   CALL SendZero
+  BANKSEL CCPR1L
   btfss RED,2
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc RED,2
   CALL SendZero
+  BANKSEL CCPR1L
   btfss RED,1
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc RED,1
   CALL SendZero
+  BANKSEL CCPR1L
   btfss RED,0
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc RED,0
   CALL SendZero
 
+  BANKSEL CCPR1L
   btfss BLUE,7
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc BLUE,7
   CALL SendZero
+  BANKSEL CCPR1L
   btfss BLUE,6
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc BLUE,6
   CALL SendZero
+  BANKSEL CCPR1L
   btfss BLUE,5
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc BLUE,5
   CALL SendZero
+  BANKSEL CCPR1L
   btfss BLUE,4
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc BLUE,4
   CALL SendZero
+  BANKSEL CCPR1L
   btfss BLUE,3
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc BLUE,3
   CALL SendZero
+  BANKSEL CCPR1L
   btfss BLUE,2
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc BLUE,2
   CALL SendZero
+  BANKSEL CCPR1L
   btfss BLUE,1
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc BLUE,1
   CALL SendZero
+  BANKSEL CCPR1L
   btfss BLUE,0
   CALL SendOne
+  BANKSEL CCPR1L
   btfsc BLUE,0
   CALL SendZero
 
+  BANKSEL CCPR1L
   incf RED,1
   incf BLUE,1
   incf GREEN,1
@@ -171,6 +222,10 @@ SendOne
   MOVWF CCPR1L
   BCF   CCP1CON, 4
   BCF   CCP1CON, 5
+  BANKSEL PIR1
+  BTFSS PIR1,1
+  BRA $-1
+  BANKSEL CCPR1L
   RETURN
 
 SendZero
@@ -179,6 +234,10 @@ SendZero
   MOVWF CCPR1L
   BSF   CCP1CON, 4
   BSF   CCP1CON, 5
+  BANKSEL PIR1
+  BTFSS PIR1,1
+  BRA $-1
+  BANKSEL CCPR1L
   RETURN
 
 Latch
