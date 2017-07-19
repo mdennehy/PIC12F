@@ -212,8 +212,14 @@ PixelLoop
 
   BANKSEL CCPR1L
   incf RED,1
-  incf BLUE,1
+  btfsc RED,5
+  clrf RED
   incf GREEN,1
+  btfsc GREEN,5
+  clrf GREEN
+  incf BLUE,1
+  btfsc BLUE,5
+  clrf BLUE
   goto PixelLoop
 
 SendOne
@@ -247,7 +253,9 @@ Latch
   BCF   CCP1CON,5
 
 Delay
-  ; Delay for 15us
+  ; Delay for 15us / 1/2sec
+  movlw 0x20
+  movwf 0x2F5
 	movlw 0xC7     ; 0xC7 = 199
 	movwf 0x2F6     ; set 0x30 to 199
 	movwf 0x2F7     ; set 0x31 to 199
@@ -255,6 +263,8 @@ Delay
 	bra $-1        ; if 0x31 != 0 go back 1 instruction
 	decfsz 0x2F6, 1 ; decrement 0x31
 	bra $-4        ; if 0x30 != 0 go back 4 instruction
+  decfsz 0x2F5, 1
+  bra $-7
   goto PixelLoopSetup
 
   END
