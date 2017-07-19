@@ -41,12 +41,10 @@
   BANKSEL CCPR1L
   ; hack - write a slightly different 24bit value 16 different times, pause,
   ; redo from start
-  CONSTANT PIXEL=0x20
-  CONSTANT RED=0x21
-  CONSTANT BLUE=0x22
-  CONSTANT GREEN=0x23
-  CONSTANT PIXEL_ONE=0x08
-  CONSTANT PIXEL_ZERO=0x02
+  CONSTANT PIXEL=0x2F0
+  CONSTANT RED=0x2F1
+  CONSTANT BLUE=0x2F2
+  CONSTANT GREEN=0x2F3
 
   movlw 0x00
   movwf RED
@@ -251,11 +249,11 @@ Latch
 Delay
   ; Delay for 15us
 	movlw 0xC7     ; 0xC7 = 199
-	movwf 0x30     ; set 0x30 to 199
-	movwf 0x31     ; set 0x31 to 199
-	decfsz 0x31, 1 ; decrement 0x30
+	movwf 0x2F6     ; set 0x30 to 199
+	movwf 0x2F7     ; set 0x31 to 199
+	decfsz 0x2F7, 1 ; decrement 0x30
 	bra $-1        ; if 0x31 != 0 go back 1 instruction
-	decfsz 0x30, 1 ; decrement 0x31
+	decfsz 0x2F6, 1 ; decrement 0x31
 	bra $-4        ; if 0x30 != 0 go back 4 instruction
   goto PixelLoopSetup
 
